@@ -1,8 +1,10 @@
 import re
 import json
 from custom.exception import HTTPException
+from json.decoder import JSONDecodeError
 
-class Request():
+
+class Request:
     def __init__(self, message):
         self.headers = {}
         self.query_params = {}
@@ -19,6 +21,7 @@ class Request():
 
     body of the request (typically in JSON for RestAPIs)
     """
+
     def parse_http(self, message):
         request_line_regex = r"([A-Z]+) ([^\s]+)+ HTTP\/[0-9]+.[0-9]+"
         header_regex = r"([0-9A-z-]+)\:[\s]*([^\n]+)"

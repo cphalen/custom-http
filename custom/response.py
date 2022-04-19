@@ -1,5 +1,5 @@
-class Response():
-    def __init__(self, status = "200 OK", body = ""):
+class Response:
+    def __init__(self, status="200 OK", body=""):
         self.status = status
         self.body = body
         self.headers = {"Connection": "close"}
@@ -14,6 +14,7 @@ class Response():
 
     body of the respose
     """
+
     def format_response(self):
         response = f"HTTP/1.0 {self.status}\n"
         self.headers["Content-Length"] = len(self.body)
@@ -22,4 +23,3 @@ class Response():
         response += "\n"
         response += self.body
         return response
-

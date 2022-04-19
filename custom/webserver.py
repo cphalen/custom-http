@@ -7,9 +7,11 @@ import inspect
 import json
 import re
 
+
 def thread_init(api):
     api.open_socket()
     api.await_request()
+
 
 class API:
     QUEUE_SIZE = 5
@@ -32,6 +34,7 @@ class API:
     """
     open server socket on PORT which will listen for connections
     """
+
     def open_socket(self):
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.bind((self.HOSTNAME, self.PORT))
@@ -40,6 +43,7 @@ class API:
     """
     main look where we await connections and handle connections as they come
     """
+
     def await_request(self):
         while True:
             client_socket, _ = self.server_socket.accept()
@@ -57,6 +61,7 @@ class API:
         5. Create response object with body and status code (see response.py
            to see how this is actually formatted into HTTP response message)
     """
+
     def handle_request(self, client_socket):
         try:
             message = self.read_message(client_socket)
@@ -81,12 +86,13 @@ class API:
             message = "500 Server Error"
             print(e)
             response = Response(message, message)
-        
+
         return response.format_response()
 
     """
     format arguments to endpoint and call endpoint, return endpoint result
     """
+
     def call_endpoint(self, endpoint, request):
         kwargs = {}
         args = inspect.signature(endpoint).parameters.keys()
@@ -100,6 +106,7 @@ class API:
     """
     read HTTP request from socket
     """
+
     def read_message(self, client_socket):
         chunks = []
         body = ""
@@ -127,9 +134,11 @@ class API:
     def get(self, path):
         def decorator(f):
             self.routes["GET"][path] = f
+
         return decorator
 
     def post(self, path):
         def decorator(f):
             self.routes["POST"][path] = f
+
         return decorator
