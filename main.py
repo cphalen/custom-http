@@ -1,9 +1,9 @@
 import os
 
-from custom.webserver import API, HTTPException
+from custom.webserver import CustomAPI, HTTPException
 from redis import Redis
 
-app = API()
+app = CustomAPI()
 conn = Redis.from_url(os.getenv("REDIS_URL", "redis://hw1-redis-test/0"))
 
 

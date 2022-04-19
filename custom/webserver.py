@@ -13,7 +13,7 @@ def thread_init(api):
     api.await_request()
 
 
-class API:
+class CustomAPI:
     QUEUE_SIZE = 5
     MESSAGE_SIZE = 100000000
     HOSTNAME = "127.0.0.1"
