@@ -1,8 +1,6 @@
 import re
-
-from requests import JSONDecodeError
-from custom.exception import HTTPException
 import json
+from custom.exception import HTTPException
 
 class Request():
     def __init__(self, message):

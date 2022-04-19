@@ -2,7 +2,7 @@ class Response():
     def __init__(self, status = "200 OK", body = ""):
         self.status = status
         self.body = body
-        self.headers = {}
+        self.headers = {"Connection": "close"}
 
     """
     HTTP/1.1 200 OK
@@ -12,11 +12,12 @@ class Response():
     ETag: "45b6-834-49130cc1182c0"
     Accept-Ranges: bytes
 
-    body of the request
+    body of the respose
     """
     def format_response(self):
-        response = f"HTTP/1.1 {self.status}\n"
-        for key, value in self.headers.values():
+        response = f"HTTP/1.0 {self.status}\n"
+        self.headers["Content-Length"] = len(self.body)
+        for key, value in self.headers.items():
             response += f"{key}: {value}\n"
         response += "\n"
         response += self.body

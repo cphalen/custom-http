@@ -11,12 +11,14 @@
    1. Sockets (maybe whip up telnet): would be awesome to have a small example here too
    2. Multi-threading
    3. `Request` and `Response` objects (`HTTPException` too)
+   4. Decorators
 7. How can we improve this?
    1. Thread pools
    2. Handling the exit gracefully
    3. More HTTP methods
    4. Better net compliance / politeness
    5. Chunked HTTP methods (sometimes the client or server needs to split content like an image into multiple messages)
+   6. URL parameters (i.e. `users/<username>/profile`)
 
 ### Commands
 Post Katara:

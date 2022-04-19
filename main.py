@@ -1,11 +1,9 @@
 import os
 
-from fastapi import FastAPI, HTTPException
-# from custom.webserver import API, HTTPException
+from custom.webserver import API, HTTPException
 from redis import Redis
 
-app = FastAPI()
-# app = API()
+app = API()
 conn = Redis.from_url(os.getenv("REDIS_URL", "redis://hw1-redis-test/0"))
 
 
@@ -28,8 +26,8 @@ def add_bender(name: str, element: str):
 def get_bender(name: str):
     if len(name) == 0:
         raise HTTPException(status_code=400, detail="Bender must have a name.")
-    value = conn.get(name).decode()
+    value = conn.get(name)
     if value is None:
         raise HTTPException(status_code=404, detail="bender not found.")
 
-    return {"name": name, "element": value}
+    return {"name": name, "element": value.decode()}

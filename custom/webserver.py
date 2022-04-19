@@ -26,8 +26,8 @@ class API:
         }
         self.thread = threading.Thread(target=thread_init, args=(self,))
         self.thread.start()
+        self.debug = True
         print(f"CustomAPI listing on {self.HOSTNAME}:{self.PORT}")
-        self.running = True
 
     """
     open server socket on PORT which will listen for connections
@@ -41,7 +41,7 @@ class API:
     main look where we await connections and handle connections as they come
     """
     def await_request(self):
-        while self.running:
+        while True:
             client_socket, _ = self.server_socket.accept()
             response = self.handle_request(client_socket)
             client_socket.send(response.encode())
@@ -60,6 +60,11 @@ class API:
     def handle_request(self, client_socket):
         try:
             message = self.read_message(client_socket)
+            if self.debug:
+                print("------------(HTTP request start)-------------")
+                print(message)
+                print("------------(HTTP request stop)--------------")
+                print("\n")
             request = Request(message)
             endpoint = self.routes.get(request.method, {}).get(request.route, None)
             if not endpoint:
@@ -68,11 +73,13 @@ class API:
             body = json.dumps(result, indent=4)
             response = Response("200 OK", body)
         except HTTPException as e:
-            message = f"{e.status_code} {e.detail}"
-            response = Response(message, message)
+            status = f"{e.status_code} {e.detail}"
+            body = json.dumps({"detail": e.detail}, indent=4)
+            response = Response(status, body)
         except Exception as e:
             # why would I want to do this?
             message = "500 Server Error"
+            print(e)
             response = Response(message, message)
         
         return response.format_response()
